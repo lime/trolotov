@@ -8,6 +8,14 @@
 public abstract class Vastaaja {
 	
 	//TODO private Sihteeri sihteeri;
+	private String[] reaktioKommennot;
+
+	/**
+	 * @return the reaktioKommennot
+	 */
+	public String[] annaReaktioKommennot() {
+		return this.reaktioKommennot;
+	}
 
 	/**
 	 * @param viesti
