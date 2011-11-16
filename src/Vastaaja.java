@@ -6,6 +6,8 @@
  * 
  */
 public abstract class Vastaaja {
+	
+	//TODO private Sihteeri sihteeri;
 
 	/**
 	 * @param viesti
@@ -17,11 +19,16 @@ public abstract class Vastaaja {
 	 */
 	public abstract String generoiVastaus(String viesti, String lahettaja);
 
-	private boolean tallennaTiedot(Object tiedot, String avainsana) {
+	protected void tallennaTiedot(Object tiedot, String avainsana) {
 
 	}
 	
-	private Object haeTiedot() {
+	protected void tallennaTiedotLevylle() {
+		
+	}
+	
+	protected Object haeTiedot() {
+		return null;
 		
 	}
 
