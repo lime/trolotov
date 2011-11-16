@@ -6,9 +6,13 @@
  * 
  */
 public abstract class Vastaaja {
-	
-	//TODO private Sihteeri sihteeri;
-	private String[] reaktioKommennot;
+
+	// TODO private Sihteeri sihteeri;
+	/**
+	 * Ne kommenot joihin tämä Vastaaja reagoi. Pitää alustaa itse Vastaajan
+	 * konstruktorissa!
+	 */
+	protected String[] reaktioKommennot;
 
 	/**
 	 * @return the reaktioKommennot
@@ -30,14 +34,14 @@ public abstract class Vastaaja {
 	protected void tallennaTiedot(Object tiedot, String avainsana) {
 
 	}
-	
+
 	protected void tallennaTiedotLevylle() {
-		
+
 	}
-	
+
 	protected Object haeTiedot() {
 		return null;
-		
+
 	}
 
 }

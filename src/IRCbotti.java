@@ -7,7 +7,7 @@ import org.jibble.pircbot.*;
  * 
  */
 public class IRCbotti extends PircBot {
-	
+
 	Delegoija delegoija;
 
 	public IRCbotti(String nimi) {
@@ -15,16 +15,19 @@ public class IRCbotti extends PircBot {
 		delegoija = new Delegoija();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.jibble.pircbot.PircBot#onMessage(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.jibble.pircbot.PircBot#onMessage(java.lang.String,
+	 * java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	protected void onMessage(String channel, String sender, String login,
 			String hostname, String message) {
 		// TODO Auto-generated method stub
 		String vastaus = this.delegoija.kasitteleViesti(message, sender);
-		if(vastaus != null) {
-			this.sendMessage(channel, vastaus);
+		if (vastaus != null) {
+			this.sendMessage(channel, sender + ": " + vastaus);
 		}
 	}
 
@@ -38,8 +41,9 @@ public class IRCbotti extends PircBot {
 	protected void onPrivateMessage(String sender, String login,
 			String hostname, String message) {
 		// TODO Auto-generated method stub
-		String vastaus = this.delegoija.kasitteleYksityisViesti(message, sender);
-		if(vastaus != null) {
+		String vastaus = this.delegoija
+				.kasitteleYksityisViesti(message, sender);
+		if (vastaus != null) {
 			this.sendMessage(sender, vastaus);
 		}
 	}
