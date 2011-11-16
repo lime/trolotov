@@ -1,4 +1,12 @@
 
+/** Itse botti. Osaa 
+ * @author lime
+ *
+ */
 public class IRCbotti {
-	//moi
+	public Vastaaja[] vastaajat;
+	
+	public IRCbotti(String nick){
+		
+	}
 }
