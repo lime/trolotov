@@ -16,12 +16,15 @@ public class Delegoija {
 
 	// private TeiniVastaaja teini;
 
+	/**
+	 * Muistakaa lisätä vastaajat
+	 */
 	public Delegoija() {
 		RAND = new Random();
 
 		this.vastaajat = new Vastaaja[] { new AikaVastaaja(),
 				new BuubbeliVastaaja() /*
-										 * , new ReittiopasVastaaja (), new
+										 * new ReittiopasVastaaja (), new
 										 * LaskariVastaaja()
 										 */
 		};
