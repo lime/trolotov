@@ -15,10 +15,26 @@ public abstract class Vastaaja {
 	protected String[] reaktioKommennot;
 
 	/**
-	 * @return the reaktioKommennot
+	 * Tarkistaa kiinnostaako kyseinen viesti tätä vastaajaa. Defaultina se
+	 * katsoo läpi reaktioKommennot-taulukkoa jos viesti alkaisi jollakin
+	 * niistä. Tämän voi overrideata jos kiinnostus riippuu muista faktoreista,
+	 * esim lähettäjästä tai satunnaisuudesta.
+	 * 
+	 * @param viesti Lähetetty viesti
+	 * @param lahettaja Viestin lähettäjä
+	 * @return 
 	 */
-	public String[] annaReaktioKommennot() {
-		return this.reaktioKommennot;
+	public boolean viestiKiinnostaa(String viesti, String lahettaja) {
+		if (this.reaktioKommennot != null) {
+			for (String reaktioKomento : this.reaktioKommennot) {
+				if (viesti.trim().toLowerCase()
+						.startsWith(reaktioKomento.toLowerCase())) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**

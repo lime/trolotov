@@ -19,12 +19,11 @@ public class Delegoija {
 	public Delegoija() {
 		RAND = new Random();
 
-		this.vastaajat = new Vastaaja[] { new AikaVastaaja() /*
-															 * , new
-															 * ReittiopasVastaaja
-															 * (), new
-															 * LaskariVastaaja()
-															 */
+		this.vastaajat = new Vastaaja[] { new AikaVastaaja(),
+				new BuubbeliVastaaja() /*
+										 * , new ReittiopasVastaaja (), new
+										 * LaskariVastaaja()
+										 */
 		};
 
 		// this.teini = new TeiniVastaaja();
@@ -37,27 +36,17 @@ public class Delegoija {
 	public String kasitteleViesti(String viesti, String lahettaja) {
 		String vastaus = null;
 
-		String komento;
-		if (viesti.split(" ").length == 0) {
-			return null;
-		} else {
-			// jos viestissä on ainakin yksi sana
-			komento = viesti.split(" ")[0];
-		}
-
 		/*
 		 * Käy läpi vastaajat ja niiden komennot. Jos löytyy matchi niin
 		 */
 		for (Vastaaja vastaaja : this.vastaajat) {
-			if (vastaaja.annaReaktioKommennot() != null) {
-				for (String reaktioKomento : vastaaja.annaReaktioKommennot()) {
-					if (komento.equalsIgnoreCase(reaktioKomento)) {
-						vastaus = vastaaja.generoiVastaus(viesti, lahettaja);
+			if (vastaaja.viestiKiinnostaa(viesti, lahettaja)) {
+				// kiinnostaa, generoi vastaus!
+				vastaus = vastaaja.generoiVastaus(viesti, lahettaja);
 
-						if (vastaus != null) {
-							return vastaus;
-						}
-					}
+				// palauta vaan jos tuli vastaus
+				if (vastaus != null) {
+					return vastaus;
 				}
 			}
 
