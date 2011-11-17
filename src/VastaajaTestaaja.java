@@ -19,7 +19,7 @@ public class VastaajaTestaaja {
 
 		String viesti = null, vastaus = null;
 		for (int i = 0; i < 10; i++) {
-			System.out.print("Koodaaja:\t");
+			System.out.print("Koodaaja :\t");
 			try {
 				viesti = lukija.readLine();
 				vastaus = delegoija.kasitteleViesti(viesti, "Koodaaja");
