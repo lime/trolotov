@@ -16,7 +16,7 @@ public class IRCbottiMain {
 	public static void main(String[] args) {
 		
 		//Luodaan se
-		IRCbotti trolotov = new IRCbotti("Trolotov");
+		IRCbotti trolotov = new IRCbotti("TrolotovEML");
 
 		//debug päälle
 		trolotov.setVerbose(true);

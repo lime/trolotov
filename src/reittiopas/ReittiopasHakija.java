@@ -76,7 +76,7 @@ public class ReittiopasHakija {
 
 		Document reitit = Jsoup.connect(url).get();
 		// palauttaa vaan ensimmäisen
-		Reitti ekaReitti = new Reitti(reitit.select("ROUTE").get(0));
+		Reitti ekaReitti = new Reitti(reitit.select("ROUTE").get(0), mistaOsoite, mihinOsoite);
 		return ekaReitti;
 	}
 
@@ -95,18 +95,5 @@ public class ReittiopasHakija {
 				.get(0));
 
 		return ekaOsoite;
-	}
-
-	public static void main(String[] args) {
-		ReittiopasHakija hakija = new ReittiopasHakija();
-		try {
-			ReittiOsoite lahtoPaikka = hakija.haePaikka("tee");
-
-			System.out.println("x: " + lahtoPaikka.annaX() + ", y: "
-					+ lahtoPaikka.annaY());
-		} catch (IOException e) {
-			System.err.println("Ei ymmärrä.");
-			e.printStackTrace();
-		}
 	}
 }
