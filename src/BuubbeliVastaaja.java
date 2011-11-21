@@ -22,8 +22,11 @@ public class BuubbeliVastaaja extends Vastaaja {
 	}
 
 	public String generoiVastaus(String viesti, String lahettaja) {
-		if (i.nextInt(100) < 10) {
-			return this.vastaukset[i.nextInt(this.vastaukset.length)];
+		if (i.nextInt(100) < 35) {
+			if (i.nextBoolean()) {
+				return this.vastaukset[i.nextInt(this.vastaukset.length)];
+			}
+			return viesti;
 		} else {
 			return null;
 		}
