@@ -1,3 +1,5 @@
+import java.io.UnsupportedEncodingException;
+
 import org.jibble.pircbot.*;
 
 /**
@@ -13,6 +15,12 @@ public class IRCbotti extends PircBot {
 	public IRCbotti(String nimi) {
 		this.setName(nimi);
 		this.setAutoNickChange(true);
+		this.setLogin(nimi.toLowerCase());
+		try {
+			this.setEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		delegoija = new Delegoija();
 	}
 

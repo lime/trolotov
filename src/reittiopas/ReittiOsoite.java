@@ -14,7 +14,9 @@ public class ReittiOsoite {
 	private Element paikka;
 	
 	public ReittiOsoite(Element paikka) {
-		this.paikka = paikka;
+		if(paikka != null) {
+			this.paikka = paikka;	
+		}
 	}
 	
 	public String annaX() {

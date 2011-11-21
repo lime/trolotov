@@ -23,7 +23,7 @@ public class IRCbottiMain {
 		
 		//yhdistä
 		try {
-			trolotov.connect("irc.nebula.fi");
+			trolotov.connect("irc.cs.hut.fi");
 		} catch (NickAlreadyInUseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

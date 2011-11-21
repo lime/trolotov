@@ -1,6 +1,14 @@
 package reittiopas;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.CodingErrorAction;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,38 +20,19 @@ import org.jsoup.nodes.Document;
 public class ReittiopasHakija {
 
 	private final String alkuosaURL;
+	private static CharsetDecoder decoder;
+	private static CharsetEncoder encoder;
 
-	public ReittiopasHakija() {
-		alkuosaURL = "http://api.reittiopas.fi/public-ytv/fi/api/?user=olotov&pass=7r01070v";
+	static {
+		Charset charset = Charset.forName("ISO-8859-1");
+		decoder = charset.newDecoder();
+		encoder = charset.newEncoder();
+		
+		encoder.onUnmappableCharacter(CodingErrorAction.IGNORE);
 	}
 
-	/**
-	 * Etsii annetuista hakusanoista reitin reittiopaasta.
-	 * 
-	 * @param mista
-	 *            Lähtöosoite/-pysäkki.
-	 * @param mihin
-	 *            Pääteosoite/-pysäkki.
-	 * @param lahtoAika
-	 *            Mahd. lähtöaika, <code>null</code> jos haetaan <i>nyt</i>.
-	 * @return Reitti-olion jossa seuraava matka osoitteiden välillä.
-	 */
-	public Reitti reittiHaku(String mista, String mihin, String lahtoAika) {
-
-		Reitti reitti = null;
-		try {
-			ReittiOsoite mistaOsoite = this.haePaikka(mista);
-			ReittiOsoite mihinOsoite = this.haePaikka(mihin);
-
-			reitti = this.haeReitti(mistaOsoite, mihinOsoite);
-		} catch (IOException e) {
-			// ei onnistunut
-			return null;
-		}
-
-		return reitti;
-		// tarkista lahtoaika
-
+	public ReittiopasHakija() {
+		this.alkuosaURL = "http://api.reittiopas.fi/public-ytv/fi/api/?user=olotov&pass=7r01070v";
 	}
 
 	private Reitti haeReitti(ReittiOsoite mistaOsoite, ReittiOsoite mihinOsoite)
@@ -74,9 +63,10 @@ public class ReittiopasHakija {
 					"&timemode=" + (onLahtoAika ? "1" : "2"));
 		}
 
-		Document reitit = Jsoup.connect(url).get();
+		Document reitit = haeReittioppaanTiedosto(url);
 		// palauttaa vaan ensimmäisen
-		Reitti ekaReitti = new Reitti(reitit.select("ROUTE").get(0), mistaOsoite, mihinOsoite);
+		Reitti ekaReitti = new Reitti(reitit.select("ROUTE").get(0),
+				mistaOsoite, mihinOsoite);
 		return ekaReitti;
 	}
 
@@ -90,10 +80,91 @@ public class ReittiopasHakija {
 	 */
 	private ReittiOsoite haePaikka(String haku) throws IOException {
 		String url = alkuosaURL.concat("&key=" + haku);
-		Document vaihtoehdot = Jsoup.connect(url).get();
-		ReittiOsoite ekaOsoite = new ReittiOsoite(vaihtoehdot.select("LOC")
-				.get(0));
+		Document vaihtoehdot = haeReittioppaanTiedosto(url);
+		ReittiOsoite ekaOsoite;
+		if (!vaihtoehdot.select("LOC").isEmpty()) {
+			ekaOsoite = new ReittiOsoite(vaihtoehdot.select("LOC").first());
+		} else {
+			ekaOsoite = null;
+		}
 
 		return ekaOsoite;
+	}
+
+	/**
+	 * @param url
+	 * @return
+	 * @throws IOException
+	 */
+	private Document haeReittioppaanTiedosto(String url) throws IOException {
+		System.out.println("ReittiopasHakija.haeReittioppaasta(), url="+url);
+		return Jsoup.connect(url).get();
+	}
+
+	/**
+	 * Etsii annetuista hakusanoista reitin reittiopaasta.
+	 * 
+	 * @param mista
+	 *            Lähtöosoite/-pysäkki.
+	 * @param mihin
+	 *            Pääteosoite/-pysäkki.
+	 * @param lahtoAika
+	 *            Mahd. lähtöaika, <code>null</code> jos haetaan <i>nyt</i>.
+	 * @return Reitti-olion jossa seuraava matka osoitteiden välillä.
+	 */
+	public Reitti reittiHaku(String mista, String mihin, String lahtoAika) {
+		Reitti reitti = null;
+
+		// hoidetaan encoding (ISO-8859-1 <-> UTF-8)
+		mista = UTFtoISO(mista);
+		mihin = UTFtoISO(mihin);
+		System.out.println("ReittiopasHakija.reittiHaku(): " + mista + " "
+				+ mihin);
+
+		try {
+			ReittiOsoite mistaOsoite = this.haePaikka(mista);
+			ReittiOsoite mihinOsoite = this.haePaikka(mihin);
+
+			reitti = this.haeReitti(mistaOsoite, mihinOsoite);
+		} catch (IOException e) {
+			// ei onnistunut
+			e.printStackTrace();
+			return null;
+		}
+
+		return reitti;
+		// tarkista lahtoaika
+
+	}
+
+	protected static String UTFtoISO(String merkkijono) {
+		System.out.println("ReittiopasHakija.UTFtoISO() ennen "+merkkijono);
+		try {
+			merkkijono = new String(merkkijono.getBytes("ISO-8859-1"));
+			//merkkijono = encoder.encode(CharBuffer.wrap(merkkijono))
+				//	.asCharBuffer().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("ReittiopasHakija.UTFtoISO() jälkeen "+merkkijono);
+		return merkkijono;
+	}
+
+	protected static String ISOtoUTF(String merkkijono) {
+		try {
+			merkkijono = decoder.decode(
+					ByteBuffer.wrap(merkkijono.getBytes("ISO-8859-1"))).toString();
+		} catch (CharacterCodingException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return merkkijono;
+	}
+	
+	public static void main(String[] args) {
+		//String jmt =UTFtoISO("jämeräntaival");
+		ReittiopasHakija hakija  = new ReittiopasHakija();
+		System.out.println(hakija.reittiHaku("jämeräntaival", "helsinki", null));
 	}
 }

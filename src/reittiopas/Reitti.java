@@ -84,8 +84,8 @@ public class Reitti {
 
 				numero = osaMatka.attr("CODE"); // TODO paranna
 
-				selitys = selitys.concat("ota "++" " + "Y" + " paikkaan "
-						+ seuraavanPaikanNimi + " ja ");// TODO
+				selitys = selitys.concat("ota " + tyyppi + " " + numero
+						+ " paikkaan " + seuraavanPaikanNimi + " ja ");// TODO
 			}
 
 			if (seuraavanPaikanNimi.equalsIgnoreCase(this.minneOsoite
@@ -97,6 +97,8 @@ public class Reitti {
 		}
 
 		selitys = selitys.concat("oot perillä. Jee.");
+		//charset-muunnos
+		//selitys = ReittiopasHakija.ISOtoUTF(selitys);
 
 		return selitys;
 	}
