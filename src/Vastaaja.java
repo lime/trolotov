@@ -12,7 +12,7 @@ public abstract class Vastaaja {
 	 * Ne kommenot joihin tämä Vastaaja reagoi. Pitää alustaa itse Vastaajan
 	 * konstruktorissa!
 	 */
-	protected String[] reaktioKommennot;
+	protected String[] reaktioKomennot;
 
 	/**
 	 * Tarkistaa kiinnostaako kyseinen viesti tätä vastaajaa. Defaultina se
@@ -20,13 +20,16 @@ public abstract class Vastaaja {
 	 * niistä. Tämän voi overrideata jos kiinnostus riippuu muista faktoreista,
 	 * esim lähettäjästä tai satunnaisuudesta.
 	 * 
-	 * @param viesti Lähetetty viesti
-	 * @param lahettaja Viestin lähettäjä
-	 * @return 
+	 * @param viesti
+	 *            Lähetetty viesti
+	 * @param lahettaja
+	 *            Viestin lähettäjä
+	 * @return Kertoo jos viesti merkitsee tälle vastaajalle mitään, eli
+	 *         löytysikö sille ehkä vastaus.
 	 */
 	public boolean viestiKiinnostaa(String viesti, String lahettaja) {
-		if (this.reaktioKommennot != null) {
-			for (String reaktioKomento : this.reaktioKommennot) {
+		if (this.reaktioKomennot != null) {
+			for (String reaktioKomento : this.reaktioKomennot) {
 				if (viesti.trim().toLowerCase()
 						.startsWith(reaktioKomento.toLowerCase())) {
 					return true;

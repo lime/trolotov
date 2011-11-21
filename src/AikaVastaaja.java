@@ -4,7 +4,7 @@
  */
 public class AikaVastaaja extends Vastaaja {
 	public AikaVastaaja() {
-		this.reaktioKommennot = new String[] { "!aika" };
+		this.reaktioKomennot = new String[] { "!aika" };
 	}
 
 	public String generoiVastaus(String viesti, String lahettaja) {

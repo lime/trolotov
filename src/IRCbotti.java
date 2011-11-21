@@ -12,6 +12,7 @@ public class IRCbotti extends PircBot {
 
 	public IRCbotti(String nimi) {
 		this.setName(nimi);
+		this.setAutoNickChange(true);
 		delegoija = new Delegoija();
 	}
 
@@ -24,7 +25,7 @@ public class IRCbotti extends PircBot {
 	@Override
 	protected void onMessage(String channel, String sender, String login,
 			String hostname, String message) {
-		// TODO Auto-generated method stub
+		//TODO Thread?
 		String vastaus = this.delegoija.kasitteleViesti(message, sender);
 		if (vastaus != null) {
 			this.sendMessage(channel, sender + ": " + vastaus);

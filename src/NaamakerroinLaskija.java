@@ -44,7 +44,7 @@ public class NaamakerroinLaskija {
 	 * @param nimi Käyttäjän nick
 	 * @return Naamakerroin (välistä [0,10])
 	 */
-	public int annaNaamakerroin(String nimi) {
+	public static int annaNaamakerroin(String nimi) {
 		if (naamakertoimet.containsKey(nimi)) {
 			return (int) Math.floor(naamakertoimet.get(nimi));
 		} else {

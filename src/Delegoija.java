@@ -5,7 +5,7 @@ import java.util.Random;
  */
 
 /**
- * @author lime
+ * @author eml
  * 
  */
 public class Delegoija {
@@ -23,10 +23,10 @@ public class Delegoija {
 		RAND = new Random();
 
 		this.vastaajat = new Vastaaja[] { new AikaVastaaja(),
-				new BuubbeliVastaaja() /*
-										 * new ReittiopasVastaaja (), new
-										 * LaskariVastaaja()
-										 */
+				new BuubbeliVastaaja(),
+				new ReittiopasVastaaja()
+				/*,new LaskariVastaaja()
+				 */
 		};
 
 		// this.teini = new TeiniVastaaja();
