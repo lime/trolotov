@@ -1,4 +1,5 @@
 package trolotov;
+
 /**
  * 
  */
@@ -8,11 +9,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
+ * Tarkoitettu botin vastaajien testaamiseen paikallisesti ilman että tarvitsee
+ * yhdistää IRCiin.
+ * 
  * @author eml
  * 
  */
 public class VastaajaTestaaja {
 
+	/**
+	 * Käynnistää uuden testaajan.
+	 * 
+	 * @param args
+	 *            Argumentit
+	 */
 	public static void main(String[] args) {
 
 		Delegoija delegoija = new Delegoija();

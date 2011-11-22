@@ -4,7 +4,6 @@ import java.util.Random;
 
 import org.jibble.pircbot.User;
 
-
 /**
  * 
  */
@@ -31,8 +30,9 @@ public class Delegoija {
 
 		this.vastaajat = new Vastaaja[] { new AikaVastaaja(),
 				new BuubbeliVastaaja(), new ReittiopasVastaaja(),
-				new KaantajaVastaaja(), new LaskariVastaaja(), new LaskariTallentaja(),
-				new NaamakerroinVastaaja(), new WikipediaVastaaja() };
+				new KaantajaVastaaja(), new LaskariVastaaja(),
+				new LaskariTallentaja(), new NaamakerroinVastaaja(),
+				new WikipediaVastaaja() };
 
 		this.teini = new Teini();
 	}
@@ -48,10 +48,10 @@ public class Delegoija {
 	 */
 	public String kasitteleViesti(String viesti, String lahettaja) {
 		String vastaus = null;
-		
-		//character encodingit kuntoon
+
+		// character encodingit kuntoon
 		viesti = EncodingKaantaja.ISOtoUTF(viesti);
-		System.out.println("Delegoija.kasitteleViesti() viesti: "+viesti);
+		System.out.println("Delegoija.kasitteleViesti() viesti: " + viesti);
 
 		/*
 		 * Käy läpi vastaajat ja niiden komennot. Jos löytyy matchi niin
@@ -93,6 +93,16 @@ public class Delegoija {
 		// TODO
 	}
 
+	/**
+	 * Käsittelee botin liittymistä kanavalle laskemalla naamakertoimen kaikille
+	 * kanavalla oleville.
+	 * 
+	 * @param kanava
+	 *            IRC-kanava
+	 * @param irkkaajat
+	 *            kanavan käyttäjät
+	 * @return onnistuneen luomisen hurraahuuto
+	 */
 	public String kasitteleBotinLiittyminen(String kanava, User[] irkkaajat) {
 		for (int i = 0; i < irkkaajat.length; i++) {
 			NaamakerroinLaskija.luoNaamakerroin(irkkaajat[i].getNick());
@@ -100,6 +110,20 @@ public class Delegoija {
 		return "jee, kertoimet luotu";
 	}
 
+	/**
+	 * Käsittelee käyttäjän liittymistä kanavalle laskemalla naamakertoimen
+	 * sille.
+	 * 
+	 * @param kanava
+	 *            IRC-kanava
+	 * @param lahettaja
+	 *            Tyyppi joka liittyy
+	 * @param login
+	 *            Käyttäjän login
+	 * @param hostname
+	 *            Käyttäjän hostname
+	 * @return onnistuneen luomisen hurraahuuto
+	 */
 	public String kasitteleIrkkaajanLiittyminen(String kanava,
 			String lahettaja, String login, String hostname) {
 		if (!NaamakerroinLaskija.onkoJoNaamakerroin(lahettaja)) {
@@ -108,6 +132,19 @@ public class Delegoija {
 		return "jeejee, naamakerroin luotu";
 	}
 
+	/**
+	 * Käsittelee käyttäjän poistumista kanavalta poistamalla naamakertoimen
+	 * siltä.
+	 * 
+	 * @param kanava
+	 *            IRC-kanava
+	 * @param lahettaja
+	 *            Tyyppi joka poistuu
+	 * @param login
+	 *            Käyttäjän login
+	 * @param hostname
+	 *            Käyttäjän hostname
+	 */
 	public void kasitteleIrkkaajanPoistuminen(String kanava, String lahettaja,
 			String login, String hostname) {
 		if (NaamakerroinLaskija.onkoJoNaamakerroin(lahettaja)) {
@@ -115,6 +152,19 @@ public class Delegoija {
 		}
 	}
 
+	/**
+	 * Käsittelee käyttäjän nickin muuttumisen laittamalla muistiin kenen nicki
+	 * muuttui ja miten. Niin helposti ei kerran saatu naamakerroin katoa. :)
+	 * 
+	 * @param vanhaNick
+	 *            Käyttäjän entinen nick.
+	 * @param login
+	 *            Käyttäjän login
+	 * @param hostname
+	 *            Käyttäjän hostname
+	 * @param uusiNick
+	 *            Käyttäjän uusi nick.
+	 */
 	public void kasitteleIrkkaajanNickinMuuttuminen(String vanhaNick,
 			String login, String hostname, String uusiNick) {
 		NaamakerroinLaskija.muutaNimea(vanhaNick, uusiNick);
