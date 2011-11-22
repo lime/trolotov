@@ -45,6 +45,8 @@ public class Reitti {
 
 			// hankitaan seuraavan paikan nimi
 			String seuraavanPaikanNimi;
+			String aika;
+
 			Element osamatkanViimeinen = osaMatka.children().last();
 			if (osamatkanViimeinen == null) {
 				continue;
@@ -59,6 +61,11 @@ public class Reitti {
 				// System.err.println("Reitti.generoiSelitys(): joku moka");
 				seuraavanPaikanNimi = "X";
 			}
+			
+			if(!osamatkanViimeinen.select("ARRIVAL").isEmpty()){
+				aika = osamatkanViimeinen.select("ARRIVAL").attr("TIME");
+				//TODO jatka
+			}
 
 			// charset-muunnos
 			seuraavanPaikanNimi = ReittiopasHakija
@@ -70,7 +77,6 @@ public class Reitti {
 			} else if (osaMatka.tagName().equalsIgnoreCase("LINE")) {
 				String tyyppi;
 				String numero;
-				String aika;
 
 				// numerot tyylikkäämmin
 				if (!osaMatka.attr("CODE").isEmpty()) {
@@ -81,6 +87,7 @@ public class Reitti {
 				} else {
 					numero = "";
 				}
+				
 
 				switch (Integer.parseInt(osaMatka.attr("TYPE"))) {
 				// TODO null-check?

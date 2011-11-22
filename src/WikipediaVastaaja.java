@@ -11,21 +11,21 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
- * WikipediaVastaaja: tulostetaan fakta etsim�ll� wikipediasta random artikkeli
- * ja k�ytt�m�ll� artikkelin ensimm�ist� lausetta.
+ * WikipediaVastaaja: tulostetaan fakta etsimällä wikipediasta random artikkeli
+ * ja käyttämällä artikkelin ensimmäistä lausetta.
  * 
  * @author HV
  * 
  */
 public class WikipediaVastaaja extends Vastaaja {
 	/**
-	 * lyhenteet on lista lyhenteist�, joiden avulla botti erottaa loppuuko
-	 * lause vai onko kyse lyhenteest�
+	 * lyhenteet on lista lyhenteistä, joiden avulla botti erottaa loppuuko
+	 * lause vai onko kyse lyhenteestä
 	 */
 	private List<String> lyhenteet;
 
 	/**
-	 * M��ritet��n luokan reaktiokomennot konstruktorissa Haetaan my�s lyhenteet
+	 * Määritetään luokan reaktiokomennot konstruktorissa Haetaan myös lyhenteet
 	 * listaan etsiLyhenteet-metodin avulla. Metodi hakee lyhenteet sivulta
 	 * http://www.kotus.fi/index.phtml?s=2149
 	 */
@@ -56,36 +56,36 @@ public class WikipediaVastaaja extends Vastaaja {
 	}
 
 	/**
-	 * Etsit��n lyhenteet listaan internetist�.
+	 * Etsitään lyhenteet listaan internetistä.
 	 * 
 	 * @throws IOException
 	 *             Mahdollinen IOException
 	 */
 	public void etsiLyhenteet() throws IOException {
-		// Yhdistet��n lyhenneluetteloon
+		// Yhdistetään lyhenneluetteloon
 		ArrayList<String> tempLyhenteet = new ArrayList<String>();
-		// Jsoupin avulla luetaan Document tyypin tiedosto ja ker�t��n sivun
+		// Jsoupin avulla luetaan Document tyypin tiedosto ja kerätään sivun
 		// data sinne
 		Document sivu = Jsoup.connect("http://www.kotus.fi/index.phtml?s=2149")
 				.get();
 
 		// Kaikki strong-tageilla merkityt merkkijonot ovat mahdollisia
-		// lyhenteit�
+		// lyhenteitä
 		Elements lyhenteet = sivu.getElementsByTag("strong");
 		Iterator<Element> itr = lyhenteet.iterator();
-		/* K�yd��n l�pi mahdolliset lyhenteet */
+		/* Käydään läpi mahdolliset lyhenteet */
 		while (itr.hasNext()) {
 
 			/*
-			 * Hy�dynnet�� Jsoup paketin metodeita ja parsitaan elementti niin,
-			 * ett� HTML-tagit poistetaan
+			 * Hyödynnetää Jsoup paketin metodeita ja parsitaan elementti niin,
+			 * että HTML-tagit poistetaan
 			 */
 
 			String tutkittavaTag = Jsoup.parse(itr.next().toString()).text()
 					.toString();
 
 			/*
-			 * Jos merkkijonossa on piste, lis�t��n se v�liaikaiseen
+			 * Jos merkkijonossa on piste, lisätään se väliaikaiseen
 			 * tempLyhenteet listaan
 			 */
 
@@ -95,10 +95,10 @@ public class WikipediaVastaaja extends Vastaaja {
 		}
 
 		/*
-		 * Luodaan iteraattori, jolla k�yd��n lista tempLyhenteet l�pi
-		 * tutkittavaString splitataan, jotta moniosaiset lyhenteet otetaan my�s
-		 * huomioon. Mik�li lyhenteen osa ei ole viel� lyhenteet listassa,
-		 * lis�t��n se sinne
+		 * Luodaan iteraattori, jolla käydään lista tempLyhenteet läpi
+		 * tutkittavaString splitataan, jotta moniosaiset lyhenteet otetaan myös
+		 * huomioon. Mikäli lyhenteen osa ei ole vielä lyhenteet listassa,
+		 * lisätään se sinne
 		 */
 
 		Iterator<String> lyhenneitr = tempLyhenteet.iterator();
@@ -111,7 +111,7 @@ public class WikipediaVastaaja extends Vastaaja {
 					}
 				}
 			}
-			// Jos kyseess� ei ole moniosaista lyhennett�, lis�t��n se suoraan
+			// Jos kyseessä ei ole moniosaista lyhennettä, lisätään se suoraan
 			else {
 				this.lyhenteet.add(tutkittavaString[0]);
 			}
@@ -119,7 +119,7 @@ public class WikipediaVastaaja extends Vastaaja {
 	}
 
 	/**
-	 * Metodilla m��ritell��n mik�li merkkijono on lyhenne
+	 * Metodilla määritellään mikäli merkkijono on lyhenne
 	 * 
 	 * @param str
 	 *            Tarkasteltava merkkijono
@@ -134,18 +134,18 @@ public class WikipediaVastaaja extends Vastaaja {
 	}
 
 	/**
-	 * Metodilla k�yd��n merkkijono l�pi ja tarkistetaan, onko siin� pelk�st��n
-	 * numeroita ja viimeisen� merkkin� .
+	 * Metodilla käydään merkkijono läpi ja tarkistetaan, onko siinä pelkästään
+	 * numeroita ja viimeisenä merkkinä .
 	 * 
 	 * @param str
 	 *            tutkittava merkkijono
-	 * @return true/false riippuen onko kyseess� merkkijono
+	 * @return true/false riippuen onko kyseessä merkkijono
 	 */
 	public boolean onJarjestysnumero(String str) {
 
 		/*
-		 * K�yd��n ensin merkkijono l�pi, ettei siin� ole viimeiseen merkkiin
-		 * menness� muita kuin numeroita
+		 * Käydään ensin merkkijono läpi, ettei siinä ole viimeiseen merkkiin
+		 * mennessä muita kuin numeroita
 		 */
 
 		for (int i = 0; i < str.length() - 1; i++) {
@@ -154,7 +154,16 @@ public class WikipediaVastaaja extends Vastaaja {
 				return false;
 			}
 		}
-		// tarkitetaan, ett� viimeinen merkki on .
+		
+		
+		/* Jos luvussa on neljä numeroa ja perässä piste, päättyy lause 
+		 * todennäköisimmin vuosilukuun*/
+		
+		if (str.length() == 5) {
+			return false;
+		}
+		
+		// tarkitetaan, että viimeinen merkki on .
 		if (str.charAt(str.length() - 1) == '.') {
 			return true;
 		} else {
@@ -163,16 +172,16 @@ public class WikipediaVastaaja extends Vastaaja {
 	}
 
 	/**
-	 * Metodilla hankkiudutaan ensimm�isess� lauseessa usein sijaitsevista
-	 * suluista eroon. Tavoitteena on, ett� esimerksiksi seuraava lause: "Johann
-	 * Sebastian Bach (21. maaliskuuta 1685 Eisenach � 28. hein�kuuta 1750
-	 * Leipzig) oli saksalainen s�velt�j�, kapellimestari ja urkuri." n�ytt�isi
-	 * t�lt�: "Johann Sebastian Bach oli saksalainen s�velt�j�, kapellimestari
-	 * ja urkuri." T�ll� tavalla botti kuulostaa enemm�n ihmism�iselt�.
+	 * Metodilla hankkiudutaan ensimmäisessä lauseessa usein sijaitsevista
+	 * suluista eroon. Tavoitteena on, että esimerksiksi seuraava lause: "Johann
+	 * Sebastian Bach (21. maaliskuuta 1685 Eisenach  28. heinäkuuta 1750
+	 * Leipzig) oli saksalainen säveltäjä, kapellimestari ja urkuri." näyttäisi
+	 * tältä: "Johann Sebastian Bach oli saksalainen säveltäjä, kapellimestari
+	 * ja urkuri." Tällä tavalla botti kuulostaa enemmän ihmismäiseltä.
 	 * 
 	 * @param str
-	 *            k�sitelt�v� merkkijono
-	 * @return merkkijono, ilman sulkuja ja niiden sis�lt��
+	 *            käsiteltävä merkkijono
+	 * @return merkkijono, ilman sulkuja ja niiden sisältöä
 	 */
 	public String leikkaaSulut(String str) {
 
@@ -181,7 +190,7 @@ public class WikipediaVastaaja extends Vastaaja {
 		String[] sanat = str.split(" ");
 		ArrayList<String> lauseLista = new ArrayList<String>();
 
-		/* Lis�t��n kaikki taulukossa olevat sanat listaan */
+		/* Lisätään kaikki taulukossa olevat sanat listaan */
 		int x = 0;
 		while (x < sanat.length) {
 			lauseLista.add(sanat[x]);
@@ -189,18 +198,18 @@ public class WikipediaVastaaja extends Vastaaja {
 		}
 
 		/*
-		 * Luodaan StringBuilder, sek� m��ritell��n paikallismuuttuja, jota
-		 * m��rittelem��n, poistetaanko sana vai ei. Luodaan my�s iteraattori
-		 * listan l�pik�ymiseen.
+		 * Luodaan StringBuilder, sekä määritellään paikallismuuttuja, jota
+		 * määrittelemään, poistetaanko sana vai ei. Luodaan myös iteraattori
+		 * listan läpikäymiseen.
 		 */
 
 		StringBuilder builder = new StringBuilder();
 		boolean onPoistettava = false;
 		Iterator<String> tutkitaanSanat = lauseLista.iterator();
-		// K�yd��n sanat l�pi
+		// Käydään sanat läpi
 		while (tutkitaanSanat.hasNext()) {
 			String tutkittavaSana = tutkitaanSanat.next();
-			// Jos sana alkaa ( ja p��ttyy ) sulkuun, onPoistettava = false
+			// Jos sana alkaa ( ja päättyy ) sulkuun, onPoistettava = false
 			if (tutkittavaSana.startsWith("(") && tutkittavaSana.endsWith(")")) {
 				onPoistettava = false;
 			}
@@ -209,7 +218,7 @@ public class WikipediaVastaaja extends Vastaaja {
 				onPoistettava = true;
 			}
 			/*
-			 * Jos sana p��ttyy )-sulkuun, poistetaan kyseinen sana ja asetetaan
+			 * Jos sana päättyy )-sulkuun, poistetaan kyseinen sana ja asetetaan
 			 * onPoistettava = false
 			 */
 			else if (tutkittavaSana.endsWith(")")) {
@@ -229,7 +238,7 @@ public class WikipediaVastaaja extends Vastaaja {
 
 		Iterator<String> itr = lauseLista.iterator();
 		while (itr.hasNext()) {
-			// Lis�t��n builderiin joka kierros tarkasteltavana oleva sana
+			// Lisätään builderiin joka kierros tarkasteltavana oleva sana
 			builder.append(itr.next()).append(' ');
 		}
 		// Muutetaan stringbuilder stringiksi ja palautetaan se
@@ -237,15 +246,15 @@ public class WikipediaVastaaja extends Vastaaja {
 	}
 
 	/**
-	 * Wikipedian teksteiss� saattaa olla joskus viitteit�, merkittyn�
-	 * hakasulkujen sis��n. Esim blaablaa[1]. T�m�n metodin avulla poistetaan
-	 * nuo hakasulut. Metodilla eliminoidaan my�s vaihtoehto, ett� fakta alkaisi
-	 * sanalla Koordinaatit: x E y N, sill� oikea kappale alkaa vasta niiden
-	 * j�lkeen.
+	 * Wikipedian teksteissä saattaa olla joskus viitteitä, merkittynä
+	 * hakasulkujen sisään. Esim blaablaa[1]. Tämän metodin avulla poistetaan
+	 * nuo hakasulut. Metodilla eliminoidaan myös vaihtoehto, että fakta alkaisi
+	 * sanalla Koordinaatit: x E y N, sillä oikea kappale alkaa vasta niiden
+	 * jälkeen.
 	 * 
 	 * @param str
 	 *            Merkkijono, josta viitteet tulee poistaa
-	 * @return merkkijono ilman viitteit�
+	 * @return merkkijono ilman viitteitä
 	 */
 	public String poistaViitteet(String str) {
 
@@ -260,8 +269,8 @@ public class WikipediaVastaaja extends Vastaaja {
 		if (sanat[0].equals("Koordinaatit:")) {
 
 			/*
-			 * Melko purkkaratkaisu, mutta t�ll� tavalla p��st��n kolmesta
-			 * ensimm�isest� sanasta eroon.
+			 * Melko purkkaratkaisu, mutta tällä tavalla päästään kolmesta
+			 * ensimmäisestä sanasta eroon.
 			 */
 
 			for (int i = 0; i < 3; i++) {
@@ -269,14 +278,14 @@ public class WikipediaVastaaja extends Vastaaja {
 			}
 		}
 
-		/* K�yd��n sanat taulukko l�pi */
+		/* Käydään sanat taulukko läpi */
 
 		for (int x = 0; x < sanat.length; x++) {
 
 			/*
 			 * Jos tarkasteltavassa sanassa on [-sulku, otetaan sanasta
-			 * substring joka alkaa alusta ja p��ttyy [-sulun indexiin. T�m�
-			 * voidaan tehd�, koska viitteet sijaitsevat aina sanojen per�ss�.
+			 * substring joka alkaa alusta ja päättyy [-sulun indexiin. Tämä
+			 * voidaan tehdä, koska viitteet sijaitsevat aina sanojen perässä.
 			 */
 
 			if (sanat[x].contains("[")) {
@@ -285,18 +294,18 @@ public class WikipediaVastaaja extends Vastaaja {
 			}
 
 			/*
-			 * Mik�li wikipediassa on j�tettu l�hdeviittaus tekem�tt�, merkit��n
-			 * sit� linkill� l�hde?. Kyseinen linkki halutaan kuitenkin poistaa
-			 * merkkijonoista. T�m� tehd��n samalla periaatteella, kun
+			 * Mikäli wikipediassa on jätettu lähdeviittaus tekemättä, merkitään
+			 * sitä linkillä lähde?. Kyseinen linkki halutaan kuitenkin poistaa
+			 * merkkijonoista. Tämä tehdään samalla periaatteella, kun
 			 * []-sulkujen poisto
 			 */
 
-			else if (sanat[x].contains("l�hde?")) {
-				sanat[x] = sanat[x].substring(0, sanat[x].indexOf("l�hde?"));
+			else if (sanat[x].contains("lähde?")) {
+				sanat[x] = sanat[x].substring(0, sanat[x].indexOf("lähde?"));
 				sb.append(' ').append(sanat[x]);
 			}
 			/*
-			 * Jos mit��n yll�olevista ei havaittu, voidaan sana vapaasti lis�t�
+			 * Jos mitään ylläolevista ei havaittu, voidaan sana vapaasti lisätä
 			 * strinbuilderiin
 			 */
 			else {
@@ -308,17 +317,17 @@ public class WikipediaVastaaja extends Vastaaja {
 	}
 
 	/**
-	 * Metodilla muunnetaan Wikipedian random-sivu tekstimuotoon. T�m�n lis�ksi
-	 * poimitaan artikkelin ensimm�inen lause.
+	 * Metodilla muunnetaan Wikipedian random-sivu tekstimuotoon. Tämän lisäksi
+	 * poimitaan artikkelin ensimmäinen lause.
 	 * 
-	 * @return random artikkelin ensimm�inen lause merkkijonona
+	 * @return random artikkelin ensimmäinen lause merkkijonona
 	 * @throws IOException
-	 *             heitet��n mahdollinen IOException
+	 *             heitetään mahdollinen IOException
 	 */
 	public String muunnaHtmlTextiksi() throws IOException {
 
 		/*
-		 * Jsoup pakettia apua k�ytt�en yhdistet��n sivulle, joka antaa
+		 * Jsoup pakettia apua käyttäen yhdistetään sivulle, joka antaa
 		 * Wikipediasta random artikkelin
 		 */
 
@@ -326,16 +335,16 @@ public class WikipediaVastaaja extends Vastaaja {
 				"http://fi.wikipedia.org/wiki/Special:Random").get();
 
 		/*
-		 * Jsoupin Element luokkaa apuna k�ytt�en, poimitaan koko sivulla
-		 * ensimm�inen ilmeentynyt <p> tagi. T�m� p�tee yli 98% Wikipedian
+		 * Jsoupin Element luokkaa apuna käyttäen, poimitaan koko sivulla
+		 * ensimmäinen ilmeentynyt <p> tagi. Tämä pätee yli 98% Wikipedian
 		 * sivuista
 		 */
 
 		Element kappale = doc.getElementsByTag("p").first();
 
 		/*
-		 * Jos ensimm�inen kappale palauttaa null, haetaan uusi artikkeli ja
-		 * tehd��n samat toimen piteet
+		 * Jos ensimmäinen kappale palauttaa null, haetaan uusi artikkeli ja
+		 * tehdään samat toimen piteet
 		 */
 
 		while (kappale == null) {
@@ -345,15 +354,15 @@ public class WikipediaVastaaja extends Vastaaja {
 		}
 
 		/*
-		 * Luodaan stringbuilder ja buffered reader, joilla l�hdet��n
-		 * k�sittelem��n sivulta haettua tietoa
+		 * Luodaan stringbuilder ja buffered reader, joilla lähdetään
+		 * käsittelemään sivulta haettua tietoa
 		 */
 
 		StringBuilder sb = new StringBuilder();
 		BufferedReader br = new BufferedReader(new StringReader(
 				kappale.toString()));
 		String rivi = br.readLine();
-		/* K�yd��n rivi yksi kerrallaan l�pi ja lis�t��n stringbuilderiin */
+		/* Käydään rivi yksi kerrallaan läpi ja lisätään stringbuilderiin */
 		while (rivi != null) {
 			sb.append(rivi);
 			rivi = br.readLine();
@@ -362,8 +371,8 @@ public class WikipediaVastaaja extends Vastaaja {
 		StringBuilder faktaLause = new StringBuilder();
 
 		/*
-		 * Luodaan sanat taulukko faktalauseesta, joka on k�ynyt l�pi kaikki
-		 * mahdolliset k�sittelyt, eli: poistetaan viitteet, sulut, poistetaan
+		 * Luodaan sanat taulukko faktalauseesta, joka on käynyt läpi kaikki
+		 * mahdolliset käsittelyt, eli: poistetaan viitteet, sulut, poistetaan
 		 * html tagit, muutetaan tekstimuotoon ja merkkijonoksi, korvataan
 		 * kaikki ajatusviivat tavallisella viivalla ja
 		 */
@@ -372,12 +381,12 @@ public class WikipediaVastaaja extends Vastaaja {
 				this.leikkaaSulut(Jsoup.parse(sb.toString()).text())
 						.replaceAll("\\p{Pd}", "-")).split(" ");
 
-		/* K�yd��n sanat taulukko l�pi */
+		/* Käydään sanat taulukko läpi */
 
 		for (int i = 0; i < sanat.length; i++) {
 
 			/*
-			 * Jos sana p��ttyy pisteeseen, ja sanan pituus on suurempi kuin
+			 * Jos sana päättyy pisteeseen, ja sanan pituus on suurempi kuin
 			 * 2(ei ole kyse nimikirjaimesta) ja sana ei ole lyhenne
 			 */
 
@@ -386,8 +395,8 @@ public class WikipediaVastaaja extends Vastaaja {
 					&& !this.onJarjestysnumero(sanat[i])) {
 
 				/*
-				 * Jos listassa on viel� sana t�m�n sanan j�lkeen ja se alkaa
-				 * isolla alkukirjaimella(lause p��ttyy), niin palautetaan
+				 * Jos listassa on vielä sana tämän sanan jälkeen ja se alkaa
+				 * isolla alkukirjaimella(lause päättyy), niin palautetaan
 				 * siihen asti konstruktoitu merkkijono
 				 */
 
@@ -397,13 +406,13 @@ public class WikipediaVastaaja extends Vastaaja {
 					return faktaLause.toString().trim();
 				}
 			}
-			// Muuten sana lis�t��n merkkijonoon
+			// Muuten sana lisätään merkkijonoon
 			faktaLause.append(' ').append(sanat[i]);
 		}
 
 		/*
-		 * Jos ehtoja ei t�ytetty, palautetaan null. Generoi vastaus pit��
-		 * huolen, ett� t�ll�in arvotaan uusi artikkeli
+		 * Jos ehtoja ei täytetty, palautetaan null. Generoi vastaus pitää
+		 * huolen, että tällöin arvotaan uusi artikkeli
 		 */
 
 		return null;
@@ -413,23 +422,23 @@ public class WikipediaVastaaja extends Vastaaja {
 	 * Toteutetaan abstarktin luokan Vastaajan metodi generoiVastaus
 	 */
 	public String generoiVastaus(String viesti, String lahettaja) {
-		// L�ht�kohtaisesti vastaus on null
+		// Lähtökohtaisesti vastaus on null
 		String vastaus = null;
 		// Jatketaan kunnes vastaus on jotain muuta kuin null
 		while (vastaus == null) {
 			// catchataan mahdollinjen IOException
 			try {
-				// M��ritell��n, ett� vastaus haetaan randomilla netist�
+				// Määritellään, että vastaus haetaan randomilla netistä
 				vastaus = this.muunnaHtmlTextiksi();
 
 				/*
-				 * Wikipediassa on mahdollista, ett� joissain tapauksissa, kun
-				 * ensimm�inen lause haetaan, ei tulostetakaan faktaa
-				 * pelaajasta, vaan t�m�n tilastoista. T�ll�in Wikipedian
-				 * muotoilus��nt�jen mukaisesti kyseiset lauseet alkavat
-				 * "Seurajoukkueuran tilastot kattavat...". T�m� lause ei
-				 * kuitenkaan pid� itsess��n sis�ll��n yht��n faktaa. N�in
-				 * ollen, jos fakta pit�� sis�ll��n kyseisen merkkijonon, niin
+				 * Wikipediassa on mahdollista, että joissain tapauksissa, kun
+				 * ensimmäinen lause haetaan, ei tulostetakaan faktaa
+				 * pelaajasta, vaan tämän tilastoista. Tällöin Wikipedian
+				 * muotoilusääntöjen mukaisesti kyseiset lauseet alkavat
+				 * "Seurajoukkueuran tilastot kattavat...". Tämä lause ei
+				 * kuitenkaan pidä itsessään sisällään yhtään faktaa. Näin
+				 * ollen, jos fakta pitää sisällään kyseisen merkkijonon, niin
 				 * asetetaan vastaukseksi null ja arvotaan uusi fakta
 				 * while-silmukan mukaisesti
 				 */
@@ -446,11 +455,5 @@ public class WikipediaVastaaja extends Vastaaja {
 		}
 		// Lopuksi palautetaan vastaus
 		return vastaus;
-	}
-
-	public static void main(String[] args) throws IOException {
-		WikipediaVastaaja w = new WikipediaVastaaja();
-		System.out.println(w.generoiVastaus("asd", "lahettaja"));
-		//System.out.println(w.onJarjestysnumero("3453."));
 	}
 }

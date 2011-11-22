@@ -9,27 +9,22 @@ import java.util.Random;
 
 public class BuubbeliVastaaja extends Vastaaja {
 	private String[] vastaukset = { "IMACE!!!", "Sillä tavalla Petri", "Trolololololo",
-			"<3<3<3<3", "EVERLASTIA!" };
+			"<3<3<3<3", "EVERLASTIA!" , ":E", "etkä pökkää..."};
 	private Random i = new Random();
 
 	@Override
 	public boolean viestiKiinnostaa(String Viesti, String lahettaja) {
 
-		if (lahettaja.startsWith("Buubbeli")) {
+		if (lahettaja.contains("Buubbeli") && i.nextDouble() <= 0.05) {
 			return true;
 		}
 		return false;
 	}
 
-	@Override
 	public String generoiVastaus(String viesti, String lahettaja) {
-		if (i.nextInt(100) < 35) {
-			if (i.nextBoolean()) {
+		if (i.nextDouble() <= 0.5) {
 				return this.vastaukset[i.nextInt(this.vastaukset.length)];
 			}
 			return viesti;
-		} else {
-			return null;
 		}
 	}
-}
