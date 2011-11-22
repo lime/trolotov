@@ -36,7 +36,7 @@ public class KaantajaVastaaja extends Vastaaja {
 	 * @throws IOException
 	 *             heittää ihan normisti IOExceptionia...
 	 */
-	public String haeKaannokset(String komento, String sana) throws IOException {
+	private String haeKaannokset(String komento, String sana) throws IOException {
 		String url;
 
 		/* Tarkistetaan kumpi komento on: !fin vai !eng */
@@ -70,7 +70,7 @@ public class KaantajaVastaaja extends Vastaaja {
 	 * @throws IOException
 	 *             heittää taas IOExceptionia
 	 */
-	public String kaannoksetEnglanniksi(String url) throws IOException {
+	private String kaannoksetEnglanniksi(String url) throws IOException {
 
 		/* alustetaan tarvittavat paikallismuuttujat */
 
@@ -149,7 +149,16 @@ public class KaantajaVastaaja extends Vastaaja {
 		return sb.toString().trim();
 	}
 
-	public String kaannoksetSuomeksi(String url) throws IOException {
+	/**
+	 * Palautetaan käännökset fi.wiktionarysta
+	 * 
+	 * @param url
+	 *            Sivu, jolta haetaan käännökset
+	 * @return merkkijonona käännökset
+	 * @throws IOException
+	 *             heittää taas IOExceptionia
+	 */
+	private String kaannoksetSuomeksi(String url) throws IOException {
 		
 		/* Metodi käytännössä sama kuin kaannoksetEnglanniksi
 		 * tämän vuoksi metodia ei selitetä niin tarkasti. */
@@ -217,7 +226,7 @@ public class KaantajaVastaaja extends Vastaaja {
 	 * @param str käsiteltävä merkkijono
 	 * @return merkkijono ilman sulkuja(ja niitten sisältöä)
 	 */
-	public String leikkaaSulut(String str) {
+	private String leikkaaSulut(String str) {
 		//splitataan merkkijono
 		String[] sanat = str.split(" ");
 		ArrayList<String> lauseLista = new ArrayList<String>();
@@ -266,7 +275,7 @@ public class KaantajaVastaaja extends Vastaaja {
  * @param str käsiteltävä merkkijono
  * @return merkkijono modifioituna tulostettavaan muotoon
  */
-	public String modifioiRivi(String str) {
+	private String modifioiRivi(String str) {
 		
 		/* Alkuun korvataan tyhjällä merkillä, [,],~,+,# 
 		 * tämän lisäksi . ja ; korvataan pilkulla */

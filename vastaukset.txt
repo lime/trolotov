@@ -6,3 +6,5 @@ $ "1. !tallennavastaus tuta 1." kirjoittanut kape
 # "1. <3 2. kurt <3 3. oleg <3 4-6. ei osaa..." kirjoittanut HV
 $ "1.\n" kirjoittanut kape
 $ "1.\n lol" kirjoittanut kape
+$ "1.sad" kirjoittanut HV
+$ "moasidao" kirjoittanut HV

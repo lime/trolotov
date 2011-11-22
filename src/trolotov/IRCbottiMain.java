@@ -4,16 +4,16 @@ import java.io.IOException;
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.NickAlreadyInUseException;
 
-/**
- * 
- */
 
-/**
+/** Käynnistää itse IRCbotin ja laittaa sen liittymään kanavalle.
  * @author lime
  *
  */
 public class IRCbottiMain {
 
+	/** Trolotovin 
+	 * @param args parametrit
+	 */
 	public static void main(String[] args) {
 		
 		//Luodaan se

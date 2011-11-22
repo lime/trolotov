@@ -1,6 +1,8 @@
 package trolotov;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 
 /**
  * Tarkoitus että voisi kääntää viestejä charsettien välillä.
@@ -18,6 +20,17 @@ public class EncodingKaantaja {
 	 * @return Viestiteksti uudella charsetillä
 	 */
 	public static String ISOtoUTF(String viesti) {
+		Charset utf8Charset = Charset.forName("UTF-8");
+		Charset iso88591Charset = Charset.forName("ISO-8859-1");
+		
+		ByteBuffer viestiBuffer = ByteBuffer.wrap(viesti.getBytes(iso88591Charset));
+		
+		CharBuffer dataIso = iso88591Charset.decode(viestiBuffer);
+		
+		ByteBuffer kaannettyBuffer = utf8Charset.encode(dataIso);
+		return new String(kaannettyBuffer.array(), utf8Charset);
+	}
+	/*public static String ISOtoUTF(String viesti) {
 		try {
 			if (viesti.getBytes("UTF-8").equals(viesti.getBytes())) {
 				System.out.println("EncodingKaantaja.ISOtoUTF()");
@@ -35,6 +48,6 @@ public class EncodingKaantaja {
 			e.printStackTrace();
 			return viesti;
 		}
-	}
+	}*/
 
 }

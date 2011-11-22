@@ -32,7 +32,7 @@ public class Delegoija {
 				new BuubbeliVastaaja(), new ReittiopasVastaaja(),
 				new KaantajaVastaaja(), new LaskariVastaaja(),
 				new LaskariTallentaja(), new NaamakerroinVastaaja(),
-				new WikipediaVastaaja() };
+				new WikipediaVastaaja(), new ApuaVastaaja() };
 
 		this.teini = new Teini();
 	}

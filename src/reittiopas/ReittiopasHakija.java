@@ -3,13 +3,6 @@ package reittiopas;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.CharacterCodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CodingErrorAction;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,17 +14,10 @@ import org.jsoup.nodes.Document;
 public class ReittiopasHakija {
 
 	private final String alkuosaURL;
-	private static CharsetDecoder decoder;
-	private static CharsetEncoder encoder;
 
-	static {
-		Charset charset = Charset.forName("ISO-8859-1");
-		decoder = charset.newDecoder();
-		encoder = charset.newEncoder();
-		
-		encoder.onUnmappableCharacter(CodingErrorAction.IGNORE);
-	}
-
+	/**
+	 * Luo uuden hakijan ja tallentaa haku-URLin alkuosan
+	 */
 	public ReittiopasHakija() {
 		this.alkuosaURL = "http://api.reittiopas.fi/public-ytv/fi/api/?user=olotov&pass=7r01070v";
 	}
@@ -98,7 +84,7 @@ public class ReittiopasHakija {
 	 * @throws IOException
 	 */
 	private Document haeReittioppaanTiedosto(String url) throws IOException {
-		System.out.println("ReittiopasHakija.haeReittioppaasta(), url="+url);
+		System.out.println("ReittiopasHakija.haeReittioppaasta(), url=" + url);
 		return Jsoup.connect(url).get();
 	}
 
@@ -130,7 +116,7 @@ public class ReittiopasHakija {
 			ReittiOsoite mistaOsoite = this.haePaikka(mista);
 			ReittiOsoite mihinOsoite = this.haePaikka(mihin);
 
-			if(mistaOsoite != null && mihinOsoite != null){
+			if (mistaOsoite != null && mihinOsoite != null) {
 				reitti = this.haeReitti(mistaOsoite, mihinOsoite);
 			} else {
 				return null;
@@ -144,30 +130,5 @@ public class ReittiopasHakija {
 		return reitti;
 		// tarkista lahtoaika
 
-	}
-
-	/*protected static String UTFtoISO(String merkkijono) {
-		System.out.println("ReittiopasHakija.UTFtoISO() ennen "+merkkijono);
-		try {
-			merkkijono = new String(merkkijono.getBytes("ISO-8859-1"));
-			//merkkijono = encoder.encode(CharBuffer.wrap(merkkijono))
-				//	.asCharBuffer().toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println("ReittiopasHakija.UTFtoISO() jälkeen "+merkkijono);
-		return merkkijono;
-	}*/
-
-	protected static String ISOtoUTF(String merkkijono) {
-		try {
-			merkkijono = decoder.decode(
-					ByteBuffer.wrap(merkkijono.getBytes("ISO-8859-1"))).toString();
-		} catch (CharacterCodingException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return merkkijono;
 	}
 }

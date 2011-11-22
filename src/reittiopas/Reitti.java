@@ -7,7 +7,9 @@ import java.util.ListIterator;
 
 import org.jsoup.nodes.Element;
 
-/** Reitti on kokonainen matka paikasta toiseen.
+/**
+ * Reitti on kokonainen matka paikasta toiseen.
+ * 
  * @author eml
  * 
  */
@@ -16,10 +18,15 @@ public class Reitti {
 	private Element reittiOhje;
 	private ReittiOsoite mistaOsoite, minneOsoite;
 
-	/**Luo uuden reitti-olion.
-	 * @param reittiOhje Reittioppaan XML-koodi joka kuvaa reittiä.
-	 * @param mistaOsoite ReittiOsoite mistä lähdetään.
-	 * @param minneOsoite ReittiOsoite minne mennään.
+	/**
+	 * Luo uuden reitti-olion.
+	 * 
+	 * @param reittiOhje
+	 *            Reittioppaan XML-koodi joka kuvaa reittiä.
+	 * @param mistaOsoite
+	 *            ReittiOsoite mistä lähdetään.
+	 * @param minneOsoite
+	 *            ReittiOsoite minne mennään.
 	 */
 	public Reitti(Element reittiOhje, ReittiOsoite mistaOsoite,
 			ReittiOsoite minneOsoite) {
@@ -58,20 +65,20 @@ public class Reitti {
 					&& osamatkanViimeinen.attr("UID").equalsIgnoreCase("DEST")) {
 				seuraavanPaikanNimi = this.minneOsoite.annaNimi();
 			} else {
-				// System.err.println("Reitti.generoiSelitys(): joku moka");
 				seuraavanPaikanNimi = "X";
 			}
-			
-			if(!osamatkanViimeinen.select("ARRIVAL").isEmpty()){
+
+			if (!osamatkanViimeinen.select("ARRIVAL").isEmpty()) {
 				aika = osamatkanViimeinen.select("ARRIVAL").attr("TIME");
-				aika = aika.substring(0, 2).concat(":").concat(aika.substring(2));
+				aika = aika.substring(0, 2).concat(":")
+						.concat(aika.substring(2));
 			} else {
 				aika = "";
 			}
 
 			// charset-muunnos
-			seuraavanPaikanNimi = ReittiopasHakija
-					.ISOtoUTF(seuraavanPaikanNimi);
+			//seuraavanPaikanNimi = EncodingKaantaja
+			//		.ISOtoUTF(seuraavanPaikanNimi);
 
 			if (osaMatka.tagName().equalsIgnoreCase("WALK")) {
 				selitys = selitys.concat("kävele paikkaan "
@@ -89,10 +96,8 @@ public class Reitti {
 				} else {
 					numero = "";
 				}
-				
 
 				switch (Integer.parseInt(osaMatka.attr("TYPE"))) {
-				// TODO null-check?
 					case 2:
 						tyyppi = "ratikka";
 						break;
@@ -102,8 +107,8 @@ public class Reitti {
 					case 7:
 						tyyppi = "lautta";
 						break;
-					case 12: //lähijuna vain kirjain
-						numero = numero.substring(numero.length()-1);
+					case 12: // lähijuna vain kirjain
+						numero = numero.substring(numero.length() - 1);
 					case 13:
 						tyyppi = "juna";
 						break;
@@ -112,8 +117,7 @@ public class Reitti {
 				}
 
 				String kulkuvaline = tyyppi + (numero.isEmpty() ? "" : " ")
-						+ numero + (aika.isEmpty() ? "" : " ")
-						+ aika;
+						+ numero + (aika.isEmpty() ? "" : " ") + aika;
 
 				selitys = selitys.concat("ota " + kulkuvaline + " paikkaan "
 						+ seuraavanPaikanNimi + " ja ");
@@ -122,7 +126,7 @@ public class Reitti {
 			if (seuraavanPaikanNimi.equalsIgnoreCase(this.minneOsoite
 					.annaNimi())) {
 				// joskus tulee tuplana koska HSL:n pojat eivät osaa tehdä
-				// tällaista tarkistusta :)
+				// kun on samassa paikassa :)
 				break;
 			}
 		}

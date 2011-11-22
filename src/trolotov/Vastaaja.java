@@ -8,7 +8,6 @@ package trolotov;
  */
 public abstract class Vastaaja {
 
-	// TODO private Sihteeri sihteeri;
 	/**
 	 * Ne kommenot joihin tämä Vastaaja reagoi. Pitää alustaa itse Vastaajan
 	 * konstruktorissa!
@@ -50,18 +49,5 @@ public abstract class Vastaaja {
 	 *         fiksua ei keksitä voidaan palauttaa <code>null</code>.
 	 */
 	public abstract String generoiVastaus(String viesti, String lahettaja);
-
-	protected void tallennaTiedot(Object tiedot, String avainsana) {
-
-	}
-
-	protected void tallennaTiedotLevylle() {
-
-	}
-
-	protected Object haeTiedot() {
-		return null;
-
-	}
 
 }

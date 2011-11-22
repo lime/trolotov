@@ -1,20 +1,26 @@
 package trolotov;
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-
+/**
+ * Teini heittää teinimäisiä kommentteja.
+ */
 public class Teini extends Vastaaja {
 
-	Random rand = new Random();
+	private Random rand = new Random();
 
-	List<String> kivat;
+	private List<String> kivat;
 
-	List<String> ilkeet;
+	private List<String> ilkeet;
 
-	List<String> ranteetAuki;
+	private List<String> ranteetAuki;
 
+
+	/**
+	 * Luo uuden Teinin.
+	 */
 	public Teini() {
 		String[] kivatTaulukko = new String[] { "sä oot niin ihQ!!<3",
 				"siis love u 4ever!!!!1", "<333333", "loveU 4ever",
@@ -58,13 +64,16 @@ public class Teini extends Vastaaja {
 		// ranteet vedetään auki jos muut eivät onnistu
 		return ranteetAuki.get(rand.nextInt(ranteetAuki.size() - 1));
 	}
-	
-	/** Staattinen metodi joka kääntää kaiken teinix-kieleksi.
-	 * @param viesti Tavallinen teksti.
+
+	/**
+	 * Staattinen metodi joka kääntää kaiken teinix-kieleksi.
+	 * 
+	 * @param viesti
+	 *            Tavallinen teksti.
 	 * @return TEiNiGX-viesti hei Daa!1
 	 */
-	public static String muutaTeinix(String viesti){
-		if(viesti == null) {
+	public static String muutaTeinix(String viesti) {
+		if (viesti == null) {
 			return null;
 		}
 		String vastaus = viesti;
@@ -73,9 +82,11 @@ public class Teini extends Vastaaja {
 		vastaus = vastaus.replace("ku", "Q");
 		vastaus = vastaus.replace(" on ", " on n11nQ ");
 		vastaus = vastaus.replace(" joka ", " joka siis D44 ");
+		if (vastaus.endsWith(".")) {
+			return vastaus.substring(0, vastaus.length() - 1);
+		}
 		return vastaus;
 	}
-
 
 	// Siis daa… lovex 4ever!!
 	// Siis emmä mikää nörtti oo?

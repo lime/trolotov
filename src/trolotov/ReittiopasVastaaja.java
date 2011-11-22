@@ -3,6 +3,8 @@ package trolotov;
 import reittiopas.*;
 
 /**
+ * Hakee reitin paikasta toiseen käyttäen HSL:n Reittiopas.fi-palvelua.
+ * 
  * @author eml
  * 
  */
@@ -10,6 +12,11 @@ public class ReittiopasVastaaja extends Vastaaja {
 
 	private ReittiopasHakija hakija;
 
+	/**
+	 * Luo uuden reittiopasvastaajan. Tämä vastaaja on vähän ilkeä, sillä se
+	 * lähettää sinut aina Keravalle jos et tiedä salaista komentoa. :)
+	 * 
+	 */
 	public ReittiopasVastaaja() {
 		this.reaktioKomennot = new String[] { "!reitti", "!oikeareitti" };
 		this.hakija = new ReittiopasHakija();
@@ -25,7 +32,7 @@ public class ReittiopasVastaaja extends Vastaaja {
 		String[] hakuEhdot = viesti.replaceFirst(".*reitti", "").split("[,;]");
 
 		if (hakuEhdot.length < 2) {
-			// liian vähän parametreja TODO fiksu vastaus?
+			// liian vähän parametreja
 			return "Hae muodossa !reitti osoite1 ; osoite2";
 		}
 
