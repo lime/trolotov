@@ -9,7 +9,7 @@ import java.util.Random;
  */
 public class Teini extends Vastaaja {
 
-	private Random rand = new Random();
+	private static final Random rand = new Random();
 
 	private List<String> kivat;
 
@@ -17,23 +17,34 @@ public class Teini extends Vastaaja {
 
 	private List<String> ranteetAuki;
 
-
 	/**
-	 * Luo uuden Teinin.
+	 * Luonti-metodi luo 3 taulukkoa, kivatTaulukossa vastaukset hyville
+	 * tyypeille, ilkeetTaulukko vastaukset ei-kivoille tyypeille,
+	 * aukiTaulukkossa on taas loput angsti kommentit
 	 */
 	public Teini() {
 		String[] kivatTaulukko = new String[] { "sä oot niin ihQ!!<3",
 				"siis love u 4ever!!!!1", "<333333", "loveU 4ever",
-				"sä oot mun bestis", "I<3U", "aaaawwwwwww", ";)" };
+				"sä oot mun bestis", "I<3U", "aww aww aww",
+				":3 :3 :3 :3 :3 :3 :3", "W00T", "puspus 1",
+				"EN KESTÄ OOT MUN JUMALA :-----------------------DDDDDDDDDDD",
+				"raxutan sun hiuxii!!11 <3 otakuvaotakuvaotakuva. :< ", };
 		kivat = Arrays.asList(kivatTaulukko);
 		String[] ilkeetTaulukko = new String[] { "sä oot niin lame",
-				"vittu mä hajoon suhun", "WTF!?! mitä sä" + " kelaat?!",
-				"ROF LOL", "sä oot niin teinixpissix!", "vitun n00b",
-				"mutsis on.."
+				"vittu mä hajoon suhun", "WTF!?! mitä sä kelaat?!", "ROF LOL",
+				"sä oot niin teinixpissix!", "vitun n00b", "mutsis on..",
+				":-----------D"
 
 		};
 		ilkeet = Arrays.asList(ilkeetTaulukko);
-		String[] aukiTaulukko = new String[] { "vittu mitä paskaa?!!!1", "" };
+		String[] aukiTaulukko = new String[] {
+				"vittu mitä paskaa?!!!1",
+				"vittu mä hajoon!",
+				"trololololol",
+				"MIKS VITUS SE VITUN KRISTEN STEWART EI OSAA PITÄÄ SITÄ "
+						+ "VITUN SUUTANSA KIINNI????? ",
+				"ARGH SORI TOI YKS VIESTI KU TÄÄ SEKOO D:",
+				"omfg mun Q tuli TÄNÄÄN D:::", };
 		ranteetAuki = Arrays.asList(aukiTaulukko);
 	}
 
@@ -42,6 +53,9 @@ public class Teini extends Vastaaja {
 		return true;
 	}
 
+	/**
+	 * generoi vastauksen naamakertoimen mukaan
+	 */
 	public String generoiVastaus(String viesti, String lahettaja) {
 		double i = rand.nextInt();
 		int naamakerroin = NaamakerroinLaskija.annaNaamakerroin(lahettaja);
@@ -77,17 +91,24 @@ public class Teini extends Vastaaja {
 			return null;
 		}
 		String vastaus = viesti;
+		if (rand.nextInt(100) < 35) { // 35%
+			String alku = rand.nextBoolean() && !viesti.contains("vittu") ? "no vittu " : "siis hei, ";
+			vastaus = alku.concat(vastaus);
+		}
 		vastaus = vastaus.toLowerCase();
 		vastaus = vastaus.replace("ks", "X");
 		vastaus = vastaus.replace("ku", "Q");
-		vastaus = vastaus.replace(" on ", " on n11nQ ");
-		vastaus = vastaus.replace(" joka ", " joka siis D44 ");
+		if (rand.nextInt(100) < 80) { // 80%
+			vastaus = vastaus.replace(" on ", " on n11nQ ");
+			vastaus = vastaus.replace(" oli ", " oli sillee ");
+			vastaus = vastaus.replace(" joka ", " joka siis D44 ");
+		}
 		if (vastaus.endsWith(".")) {
 			return vastaus.substring(0, vastaus.length() - 1);
 		}
+
 		return vastaus;
 	}
-
 	// Siis daa… lovex 4ever!!
 	// Siis emmä mikää nörtti oo?
 	// XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD

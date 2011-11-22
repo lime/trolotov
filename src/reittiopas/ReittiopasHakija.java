@@ -34,7 +34,7 @@ public class ReittiopasHakija {
 	 * @param mihinOsoite
 	 * @param aika
 	 * @param onLahtoAika
-	 * @return
+	 * @return ensimmäinen reittivaihtoehto
 	 * @throws IOException
 	 */
 	private Reitti haeReitti(ReittiOsoite mistaOsoite,
@@ -80,7 +80,7 @@ public class ReittiopasHakija {
 
 	/**
 	 * @param url
-	 * @return
+	 * @return uusi Document ladatusta XML-tiedostosta
 	 * @throws IOException
 	 */
 	private Document haeReittioppaanTiedosto(String url) throws IOException {

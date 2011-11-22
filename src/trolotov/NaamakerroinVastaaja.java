@@ -40,7 +40,7 @@ public class NaamakerroinVastaaja extends Vastaaja {
 		if (naamakerroin == -1) {
 			return "ei oo vittu tollast tyyppii tääl";
 		} else if (naamakerroin < 5) {
-			return "no vittu toi " + tyyppi
+			return "toi " + tyyppi
 					+ " on iha paska jätkä, sen naamakerroin " + "on "
 					+ naamakerroin;
 		} else if (naamakerroin < 7) {
