@@ -18,8 +18,8 @@ public class Reitti {
 
 	/**Luo uuden reitti-olion.
 	 * @param reittiOhje Reittioppaan XML-koodi joka kuvaa reittiä.
-	 * @param mistaOsoite
-	 * @param minneOsoite
+	 * @param mistaOsoite ReittiOsoite mistä lähdetään.
+	 * @param minneOsoite ReittiOsoite minne mennään.
 	 */
 	public Reitti(Element reittiOhje, ReittiOsoite mistaOsoite,
 			ReittiOsoite minneOsoite) {
@@ -64,7 +64,9 @@ public class Reitti {
 			
 			if(!osamatkanViimeinen.select("ARRIVAL").isEmpty()){
 				aika = osamatkanViimeinen.select("ARRIVAL").attr("TIME");
-				//TODO jatka
+				aika = aika.substring(0, 2).concat(":").concat(aika.substring(2));
+			} else {
+				aika = "";
 			}
 
 			// charset-muunnos
@@ -73,7 +75,7 @@ public class Reitti {
 
 			if (osaMatka.tagName().equalsIgnoreCase("WALK")) {
 				selitys = selitys.concat("kävele paikkaan "
-						+ seuraavanPaikanNimi + ", ");// TODO
+						+ seuraavanPaikanNimi + ", ");
 			} else if (osaMatka.tagName().equalsIgnoreCase("LINE")) {
 				String tyyppi;
 				String numero;
@@ -110,7 +112,8 @@ public class Reitti {
 				}
 
 				String kulkuvaline = tyyppi + (numero.isEmpty() ? "" : " ")
-						+ numero;
+						+ numero + (aika.isEmpty() ? "" : " ")
+						+ aika;
 
 				selitys = selitys.concat("ota " + kulkuvaline + " paikkaan "
 						+ seuraavanPaikanNimi + " ja ");

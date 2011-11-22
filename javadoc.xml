@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="private" additionalparam=" -encoding UTF-8 -charset UTF-8 -docencoding UTF-8" author="true" classpath="lib/jsoup-1.6.1-javadoc.jar:lib/jsoup-1.6.1.jar" destdir="doc" doctitle="Studio 1 - Tehtävä 4" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="reittiopas" source="1.6" sourcefiles="src/VastaajaTestaaja.java,src/Delegoija.java,src/ReittiopasVastaaja.java,src/Vastaaja.java,src/WikipediaVastaaja.java,src/IRCbotti.java,src/BuubbeliVastaaja.java,src/LaskariVastaaja.java,src/NaamakerroinVastaaja.java,src/AikaVastaaja.java,src/Teini.java,src/NaamakerroinLaskija.java,src/KaantajaVastaaja.java,src/IRCbottiMain.java,src/LaskariTallentaja.java,src/EncodingKaantaja.java" sourcepath="src:lib" splitindex="false" stylesheetfile="/Users/lime/Documents/workspace/Studio1/doc/red-n-black.css" use="true" version="true"/>
+    </target>
+</project>
