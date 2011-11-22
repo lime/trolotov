@@ -33,7 +33,7 @@ public class IRCbotti extends PircBot {
 	@Override
 	protected void onMessage(String channel, String sender, String login,
 			String hostname, String message) {
-		//TODO Thread?
+		// TODO Thread?
 		String vastaus = this.delegoija.kasitteleViesti(message, sender);
 		if (vastaus != null) {
 			this.sendMessage(channel, sender + ": " + vastaus);
@@ -70,4 +70,29 @@ public class IRCbotti extends PircBot {
 		super.onMode(channel, sourceNick, sourceLogin, sourceHostname, mode);
 	}
 
+	@Override
+	protected void onUserList(String channel, User[] users) {
+		this.delegoija.kasitteleBotinLiittyminen(channel, users);
+	}
+
+	@Override
+	protected void onJoin(String channel, String sender, String login,
+			String hostname) {
+		this.delegoija.kasitteleIrkkaajanLiittyminen(channel, sender, login,
+				hostname);
+	}
+
+	@Override
+	protected void onPart(String channel, String sender, String login,
+			String hostname) {
+		this.delegoija.kasitteleIrkkaajanPoistuminen(channel, sender, login,
+				hostname);
+	}
+
+	@Override
+	protected void onNickChange(String oldNick, String login, String hostname,
+			String newNick) {
+		this.delegoija.kasitteleIrkkaajanNickinMuuttuminen(oldNick, login,
+				hostname, newNick);
+	}
 }

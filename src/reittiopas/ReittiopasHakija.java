@@ -2,6 +2,7 @@ package reittiopas;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
@@ -115,9 +116,13 @@ public class ReittiopasHakija {
 	public Reitti reittiHaku(String mista, String mihin, String lahtoAika) {
 		Reitti reitti = null;
 
-		// hoidetaan encoding (ISO-8859-1 <-> UTF-8)
-		mista = UTFtoISO(mista);
-		mihin = UTFtoISO(mihin);
+		// hoidetaan encoding (ISO-8859-1 URLeihin)
+		try {
+			mista = URLEncoder.encode(mista, "ISO-8859-1");
+			mihin = URLEncoder.encode(mihin, "ISO-8859-1");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		System.out.println("ReittiopasHakija.reittiHaku(): " + mista + " "
 				+ mihin);
 
@@ -125,7 +130,11 @@ public class ReittiopasHakija {
 			ReittiOsoite mistaOsoite = this.haePaikka(mista);
 			ReittiOsoite mihinOsoite = this.haePaikka(mihin);
 
-			reitti = this.haeReitti(mistaOsoite, mihinOsoite);
+			if(mistaOsoite != null && mihinOsoite != null){
+				reitti = this.haeReitti(mistaOsoite, mihinOsoite);
+			} else {
+				return null;
+			}
 		} catch (IOException e) {
 			// ei onnistunut
 			e.printStackTrace();
@@ -137,7 +146,7 @@ public class ReittiopasHakija {
 
 	}
 
-	protected static String UTFtoISO(String merkkijono) {
+	/*protected static String UTFtoISO(String merkkijono) {
 		System.out.println("ReittiopasHakija.UTFtoISO() ennen "+merkkijono);
 		try {
 			merkkijono = new String(merkkijono.getBytes("ISO-8859-1"));
@@ -148,7 +157,7 @@ public class ReittiopasHakija {
 		}
 		System.out.println("ReittiopasHakija.UTFtoISO() jälkeen "+merkkijono);
 		return merkkijono;
-	}
+	}*/
 
 	protected static String ISOtoUTF(String merkkijono) {
 		try {
@@ -160,11 +169,5 @@ public class ReittiopasHakija {
 			e.printStackTrace();
 		}
 		return merkkijono;
-	}
-	
-	public static void main(String[] args) {
-		//String jmt =UTFtoISO("jämeräntaival");
-		ReittiopasHakija hakija  = new ReittiopasHakija();
-		System.out.println(hakija.reittiHaku("jämeräntaival", "helsinki", null));
 	}
 }

@@ -1,10 +1,5 @@
 import java.util.HashMap;
 
-
-/**
- * 
- */
-
 /**
  * @author Senja
  * 
@@ -18,12 +13,12 @@ public class NaamakerroinLaskija {
 
 	}
 	
-	//TODO k√§yt√§ silloin kun joinataan
+	//TODO käytä silloin kun joinataan
 	/**
-	 * Metodia on tarkoitus k√§ytt√§√§, kun bottii liittyy kanavalle ja k√§y kaikki
-	 * nickit l√§pi
+	 * Metodia on tarkoitus käyttää, kun bottii liittyy kanavalle ja käy kaikki
+	 * nickit läpi
 	 * TAI silloin kun uusi irkkaaja liittyy kanavalle
-	 * TAI kun joku vaihtaa nicki√§
+	 * TAI kun joku vaihtaa nickiä
 	 * @param nimi Sen irkkaajan nick, jolle luodaan naamakerroin
 	 */
 	public static void luoNaamakerroin(String nimi){
@@ -41,15 +36,15 @@ public class NaamakerroinLaskija {
 		}
 	}
 
-	/**Kertoo k√§ytt√§j√§n naamakertoimen
-	 * @param nimi K√§ytt√§j√§n nick
-	 * @return Naamakerroin (v√§list√§ [0,10])
+	/**Kertoo käyttäjän naamakertoimen
+	 * @param nimi Käyttäjän nick
+	 * @return Naamakerroin (välistä [0,10])
 	 */
 	public static int annaNaamakerroin(String nimi) {
 		if (naamakertoimet.containsKey(nimi)) {
 			return (int) Math.floor(naamakertoimet.get(nimi));
 		} else {
-			//TODO -1 t√§ll√§ hetkell√§
+			//TODO -1 tällä hetkellä
 			return -1;
 		}
 	}
@@ -72,7 +67,7 @@ public class NaamakerroinLaskija {
 	 * 
 	 * @param nimi Sen irkkaajan nick, jonka naamakerrointa halutaan alentaa
 	 */
-	public void alennaNaamakerrointa(String nimi){
+	public static void alennaNaamakerrointa(String nimi){
 		if(naamakertoimet.containsKey(nimi)){
 			double kerroin = naamakertoimet.get(nimi);
 			kerroin = kerroin - 0.1;
@@ -80,4 +75,24 @@ public class NaamakerroinLaskija {
 		}
 	}
 
+	public static boolean onkoJoNaamakerroin(String nimi){
+		if(naamakertoimet.containsKey(nimi)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public static void poistaNaamakerroin(String nimi){
+		if(naamakertoimet.containsKey(nimi)){
+			naamakertoimet.remove(nimi);
+		}
+	}
+	
+	public static void muutaNimea(String vanhaNimi, String uusiNimi){
+		double muistiArvo = naamakertoimet.get(vanhaNimi);
+		naamakertoimet.remove(vanhaNimi);
+		naamakertoimet.put(uusiNimi, muistiArvo);
+	}
 }

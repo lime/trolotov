@@ -56,6 +56,24 @@ public class Teini extends Vastaaja {
 		// ranteet vedetään auki jos muut eivät onnistu
 		return ranteetAuki.get(rand.nextInt(ranteetAuki.size() - 1));
 	}
+	
+	/** Staattinen metodi joka kääntää kaiken teinix-kieleksi.
+	 * @param viesti Tavallinen teksti.
+	 * @return TEiNiGX-viesti hei Daa!1
+	 */
+	public static String muutaTeinix(String viesti){
+		if(viesti == null) {
+			return null;
+		}
+		String vastaus = viesti;
+		vastaus = vastaus.toLowerCase();
+		vastaus = vastaus.replace("ks", "X");
+		vastaus = vastaus.replace("ku", "Q");
+		vastaus = vastaus.replace(" on ", " on n11nQ ");
+		vastaus = vastaus.replace(" joka ", " joka siis D44 ");
+		return vastaus;
+	}
+
 
 	// Siis daa… lovex 4ever!!
 	// Siis emmä mikää nörtti oo?

@@ -6,9 +6,8 @@ package reittiopas;
 import java.util.ListIterator;
 
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 
-/**
+/** Reitti on kokonainen matka paikasta toiseen.
  * @author eml
  * 
  */
@@ -17,6 +16,11 @@ public class Reitti {
 	private Element reittiOhje;
 	private ReittiOsoite mistaOsoite, minneOsoite;
 
+	/**Luo uuden reitti-olion.
+	 * @param reittiOhje Reittioppaan XML-koodi joka kuvaa reittiä.
+	 * @param mistaOsoite
+	 * @param minneOsoite
+	 */
 	public Reitti(Element reittiOhje, ReittiOsoite mistaOsoite,
 			ReittiOsoite minneOsoite) {
 		this.reittiOhje = reittiOhje;
@@ -27,7 +31,7 @@ public class Reitti {
 	/**
 	 * Tekee "fiksun" selityksen reitistä.
 	 * 
-	 * @return
+	 * @return reittiselitys jota voi lähettää käyttäjälle
 	 */
 	public String generoiSelitys() {
 
@@ -56,12 +60,27 @@ public class Reitti {
 				seuraavanPaikanNimi = "X";
 			}
 
-			// TODO käsittele walk ja line
+			// charset-muunnos
+			seuraavanPaikanNimi = ReittiopasHakija
+					.ISOtoUTF(seuraavanPaikanNimi);
+
 			if (osaMatka.tagName().equalsIgnoreCase("WALK")) {
 				selitys = selitys.concat("kävele paikkaan "
 						+ seuraavanPaikanNimi + ", ");// TODO
 			} else if (osaMatka.tagName().equalsIgnoreCase("LINE")) {
-				String tyyppi, numero;
+				String tyyppi;
+				String numero;
+				String aika;
+
+				// numerot tyylikkäämmin
+				if (!osaMatka.attr("CODE").isEmpty()) {
+					numero = osaMatka.attr("CODE").substring(1, 5).trim();
+					while (numero.startsWith("0")) {
+						numero = numero.replaceFirst("0", "");
+					}
+				} else {
+					numero = "";
+				}
 
 				switch (Integer.parseInt(osaMatka.attr("TYPE"))) {
 				// TODO null-check?
@@ -74,7 +93,8 @@ public class Reitti {
 					case 7:
 						tyyppi = "lautta";
 						break;
-					case 12:
+					case 12: //lähijuna vain kirjain
+						numero = numero.substring(numero.length()-1);
 					case 13:
 						tyyppi = "juna";
 						break;
@@ -82,10 +102,11 @@ public class Reitti {
 						tyyppi = "bussi";
 				}
 
-				numero = osaMatka.attr("CODE"); // TODO paranna
+				String kulkuvaline = tyyppi + (numero.isEmpty() ? "" : " ")
+						+ numero;
 
-				selitys = selitys.concat("ota " + tyyppi + " " + numero
-						+ " paikkaan " + seuraavanPaikanNimi + " ja ");// TODO
+				selitys = selitys.concat("ota " + kulkuvaline + " paikkaan "
+						+ seuraavanPaikanNimi + " ja ");
 			}
 
 			if (seuraavanPaikanNimi.equalsIgnoreCase(this.minneOsoite
@@ -97,8 +118,6 @@ public class Reitti {
 		}
 
 		selitys = selitys.concat("oot perillä. Jee.");
-		//charset-muunnos
-		//selitys = ReittiopasHakija.ISOtoUTF(selitys);
 
 		return selitys;
 	}

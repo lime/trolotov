@@ -8,7 +8,7 @@ import java.util.Random;
  */
 
 public class BuubbeliVastaaja extends Vastaaja {
-	String[] vastaukset = { "IMACE!!!", "Sillä tavalla Petri", "Trolololololo",
+	private String[] vastaukset = { "IMACE!!!", "Sillä tavalla Petri", "Trolololololo",
 			"<3<3<3<3", "EVERLASTIA!" };
 	private Random i = new Random();
 
@@ -21,6 +21,7 @@ public class BuubbeliVastaaja extends Vastaaja {
 		return false;
 	}
 
+	@Override
 	public String generoiVastaus(String viesti, String lahettaja) {
 		if (i.nextInt(100) < 35) {
 			if (i.nextBoolean()) {
